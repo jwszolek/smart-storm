@@ -1,6 +1,5 @@
 ﻿import { Injectable } from "@angular/core";
 import { ConnectionBackend, XHRBackend, RequestOptions, Request, RequestOptionsArgs, Response, Http, Headers } from "@angular/http";
-import { appConfig } from './app.config';
 import {environment} from '../../environments/environment';
 
 import { Observable } from "rxjs/Observable";

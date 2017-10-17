@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { TranslateService } from '../translate';
 
 @Component({
   selector: 'sensors-component',
@@ -16,7 +15,6 @@ export class SensorsComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
      
-      });
   }
 
 

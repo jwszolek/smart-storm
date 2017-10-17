@@ -1,6 +1,6 @@
 import { Component, OnInit }         from '@angular/core';
 import { Router,ActivatedRoute, Params } from '@angular/router';
-// import { AdvGrowlService } from 'primeng-advanced-growl';
+import { AdvGrowlService } from 'primeng-advanced-growl';
 
 import { Subscription } from 'rxjs/Subscription';
 // import { TranslateService }	from '../translate';
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
 
 	constructor(private route: ActivatedRoute,
-      // private growlService: AdvGrowlService,
+      private growlService: AdvGrowlService,
       private router: Router, 
       private _user: UserService,
       // private translator: TranslateService
@@ -45,11 +45,14 @@ export class LoginComponent implements OnInit {
 
     login() {
        this.loading=true;
+       // console.log(this.model);
        this.sub = this._user.login(this.model.username, this.model.password).subscribe(res => {
           console.log(res);
-          this.router.navigate(['/enbio']);
+          this.loading = false;
+          this.router.navigate(['/sensors']);
        },error => {
-        // this.growlService.createErrorMessage(this.translator.instant('login_error'),error);
+        console.log(error);
+        this.growlService.createErrorMessage('login_error',error);
        this.loading=false;
      });
     }

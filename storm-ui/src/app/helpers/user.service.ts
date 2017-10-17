@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Location, LocationStrategy } from "@angular/common";
 import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
-import { CustomHttp } from "../helpers/custom-http";
 import {CanActivate} from "@angular/router";
 import {Subject} from "rxjs/Subject";
 import { Router } from "@angular/router";
@@ -18,7 +17,6 @@ export class UserService{
     }
 
     login(username: string, password: string) {
-
       return this.http.post('/api/users/authenticate', { username: username, password: password })
         .map((response: Response) => {
           let user = response;
