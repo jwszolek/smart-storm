@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule, JsonpModule, ConnectionBackend } from '@angular/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { FormsModule }   from '@angular/forms';
 import { AppRoutingModule }     from './app-routing.module';
 import { AdvGrowlModule } from 'primeng-advanced-growl';
+import {DataTableModule,SharedModule,DialogModule,ButtonModule} from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -30,7 +32,12 @@ import { SensorsComponent } from './sensors/sensors.component';
     HttpModule,
     FormsModule,
     JsonpModule,
-    AdvGrowlModule
+    AdvGrowlModule,
+    DataTableModule,
+    SharedModule,
+    DialogModule,
+    BrowserAnimationsModule,
+    ButtonModule
   ],
   providers: [
   requestOptionsProvider,
