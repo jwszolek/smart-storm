@@ -1,4 +1,4 @@
-<!-- <adv-growl [life]="10000"></adv-growl> -->
+<adv-growl [life]="10000"></adv-growl>
 <!-- <h4 style="text-align: center;">{{'enbio/devices' | translate}}</h4> -->
 <!-- <devices-grid #devices></devices-grid> -->
 <br/>
@@ -13,7 +13,7 @@
 		</p-header>
 	    <p-column field="name" header="Name"></p-column>
 	    <p-column field="date" header="Date added"></p-column>
-	    <p-column field="id" header="ID"></p-column>
+	    <p-column field="_id" header="ID"></p-column>
 	</p-dataTable>
 </div>
 <!-- <materials-grid #materials></materials-grid> -->
@@ -34,7 +34,7 @@
 		    </div>
 		    <div class="ui-grid-row form-group">
 		        <div class="ui-grid-col-4"><label for="id">Id</label></div>
-		        <div class="ui-grid-col-8"><input class="form-control" pInputText name="id" [(ngModel)]="sensor.id" disabled="true" novalidate/></div>
+		        <div class="ui-grid-col-8"><input class="form-control" pInputText name="id" [(ngModel)]="sensor._id" disabled="true" novalidate/></div>
 		    </div>
 		</div>
     <!-- <p-footer> -->

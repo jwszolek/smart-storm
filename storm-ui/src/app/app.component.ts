@@ -22,8 +22,9 @@ export class AppComponent {
   checkLogged(){
     var user = this.userData;
     if(!user.logged){
-      var user = JSON.parse(localStorage.getItem('currentUser'));
-      if(!user) return false;
+      var user = this.user.userData; 
+      //JSON.parse(localStorage.getItem('currentUser'));
+      if(!user.logged) return false;
       else {
         this.userData = user;
         this.userData.logged = true;
@@ -51,9 +52,9 @@ export class AppComponent {
 
   loginStatus() {
     if(this.checkLogged()){
-      return 'logout';
+      return 'Logout';
     } else {
-      return 'login';
+      return 'Login';
     }
   }
 }

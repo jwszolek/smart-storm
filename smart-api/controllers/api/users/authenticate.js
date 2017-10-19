@@ -26,12 +26,24 @@
 //   });   
  
 // } 
+var jwt = require('jsonwebtoken');
+// var bcrypt = require('bcryptjs');
+
  module.exports = function(r){
   r.post("/",function (req,res) { 
             // console.log(req); 
             if(req.body.username=='admin' && req.body.password=='asd') 
                 res.json({ 
-                  user:'OK', 
+                  user:'OK',
+                  token:jwt.sign({
+                            sub: req.body.username,
+                            id: 325,
+                            permissions: {
+                            	sensors:'write'
+                            },
+                        }, 'SUPER_SECRET', {
+                            expiresIn:  15*60
+                        })
                 }) 
             else 
                 res.status(500).send('Błąd'); 

@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { DataService } from '../helpers/data.service';
+import { AdvGrowlService } from 'primeng-advanced-growl';
 
 @Component({
   selector: 'sensors-component',
@@ -20,12 +22,13 @@ export class SensorsComponent implements AfterViewInit {
 
 	newSensor: boolean;
 
-	constructor() {
+	constructor(private service:DataService,
+       private growlService: AdvGrowlService) {
 
 	}
 
 	ngAfterViewInit(): void {
-
+       this.loadData();
 	}
 
  	showDialogToAdd() {
@@ -39,23 +42,55 @@ export class SensorsComponent implements AfterViewInit {
     }
     
     save() {
-        let sensors = [...this.sensors];
-        if(this.newSensor)
-            sensors.push(this.sensor);
-        else
-            sensors[this.findSelectedSensorIndex()] = this.sensor;
+        if(this.newSensor){
+            this.service.submitSensor(this.sensor).subscribe((status:any)=>{
+                // console.log(status);
+
+                this.growlService.createSuccessMessage(status.user,'Submit successful');
+
+                this.growlService.createErrorMessage('',status.user);
+                this.loadData();
+            });
+        }
+        else{
+            this.service.updateSensor(this.sensor).subscribe((status:any)=>{
+                // console.log(status);                  
+                this.growlService.createSuccessMessage(status.user,'Update successful');
+
+                this.growlService.createErrorMessage('',status.user);
+                this.loadData();
+            });;
+            // sensors[this.findSelectedSensorIndex()] = this.sensor;
+        }
         
-        this.sensors = sensors;
         this.sensor = null;
         this.displayDialog = false;
     }
     
     delete() {
-        let index = this.findSelectedSensorIndex();
-        this.sensors = this.sensors.filter((val,i) => i!=index);
+        // let index = this.findSelectedSensorIndex();
+        // this.sensors = this.sensors.filter((val,i) => i!=index);
+        if(!this.newSensor)
+            this.service.deleteSensor(this.sensor).subscribe((status:any)=>{
+                // console.log(status);
+
+                this.growlService.createSuccessMessage(status.user,'Delete successful');
+
+                this.growlService.createErrorMessage('',status.user);
+                this.loadData();
+            });
+
         this.sensor = null;
         this.displayDialog = false;
     }    
+
+    loadData(){
+        this.service.getSensors().subscribe((data:any)=>{
+            this.sensors=data;
+            this.growlService.createSuccessMessage('Loaded '+data.length+' sensor(s)','Loading successful');
+            // console.log(data);
+        });
+    }
     
     onRowSelect(event) {
         this.newSensor = false;
@@ -68,8 +103,8 @@ export class SensorsComponent implements AfterViewInit {
         return sensor;
     }
     
-    findSelectedSensorIndex(): number {
-        return this.sensors.indexOf(this.selectedSensor);
-    }
+    // findSelectedSensorIndex(): number {
+    //     return this.sensors.indexOf(this.selectedSensor);
+    // }
 
 }

@@ -14,6 +14,7 @@ import { RegisterComponent } from "./register/register.component";
 import { requestOptionsProvider }   from './helpers/default-request-options.service';
 
 import { UserService } from './helpers/user.service';
+import { DataService } from './helpers/data.service';
 import { customHttpProvider } from "./helpers/custom-http";
 import { AuthGuard } from "./helpers/auth.guard";
 
@@ -42,6 +43,7 @@ import { SensorsComponent } from './sensors/sensors.component';
   providers: [
   requestOptionsProvider,
   	UserService,
+    DataService,
     customHttpProvider,
     AuthGuard],
   bootstrap: [AppComponent]
