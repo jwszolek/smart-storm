@@ -1,51 +1,59 @@
 /** 
  * Created by MD on 17/10/17. 
  */ 
-// var express = require('express'); 
- 
-// // var routes = function () { 
- 
-//     var userRouter = express.Router(); 
-     
-//     userRouter 
-//         .post("/authenticate",function (req,res) { 
-//             // console.log(req); 
-//             if(req.body.username=='admin' && req.body.password=='asd') 
-//                 res.json({ 
-//                   user:'OK', 
-//                 }) 
-//             else 
-//                 res.status(500).send('Błąd'); 
-//         }) 
-     
-//   userRouter.post('/register', (req,res)=>{ 
-//     // console.log(req); 
-//     res.json({ 
-//       user:'OK', 
-//     }) 
-//   });   
- 
-// } 
+var utils=require('../../../utils');
 var jwt = require('jsonwebtoken');
-// var bcrypt = require('bcryptjs');
+var bcrypt = require('bcryptjs');
 
  module.exports = function(r){
-  r.post("/",function (req,res) { 
+  	r.post("/",function (req,res) { 
             // console.log(req); 
-            if(req.body.username=='admin' && req.body.password=='asd') 
-                res.json({ 
-                  user:'OK',
-                  token:jwt.sign({
-                            sub: req.body.username,
-                            id: 325,
-                            permissions: {
-                            	sensors:'write'
-                            },
-                        }, 'SUPER_SECRET', {
-                            expiresIn:  15*60
-                        })
-                }) 
-            else 
-                res.status(500).send('Błąd'); 
-        })   
+            // if(req.body.username=='admin' && req.body.password=='asd') 
+		var theUser={
+			email:req.body.email,
+			password:req.body.password
+		};
+        utils.getDbConnection().then((db)=>{
+
+		 	db.collection('users').findOne({
+		 		email:theUser.email	
+		 	},(err,user)=>{
+		 		if(err){
+		 			console.log('Error getting users list:'+err);
+					res.sendStatus(500);
+					db.close();
+		 		}
+		 		else if(user){
+
+		 			bcrypt.compare(theUser.password, user.hash, (err, auth) => {
+		 				if(err){
+				 			console.log('Error unhashing password:'+err);
+							res.sendStatus(500);
+							db.close();
+				 		}else if (auth){
+				 			res.json({ 
+			                  user: user.email,
+			                  token: utils.generateToken(user)
+			                });
+
+				 		}else{
+				 			console.log('Bad password:' +theUser.password);
+				 			res.sendStatus(403);
+				 		}
+						db.close();
+		 			});
+
+		 			
+		 		}else{
+		 			console.log('Bad user:' +theUser.email);
+		 			res.sendStatus(403);
+					db.close();
+		 		}
+		 	});
+
+		}).catch((err)=>{
+			console.log('Error connecting to: '+url);
+			res.sendStatus(500);
+		}); 
+    });   
 };
