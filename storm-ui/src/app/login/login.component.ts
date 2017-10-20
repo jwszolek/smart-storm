@@ -44,16 +44,16 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-       this.loading=true;
-       // console.log(this.model);
-       this.sub = this._user.login(this.model.username, this.model.password).subscribe(res => {
-          console.log(res);
-          this.loading = false;
-          this.router.navigate(['/sensors']);
-       },error => {
-        console.log(error);
-        this.growlService.createErrorMessage('login_error',error);
-       this.loading=false;
-     });
+        this.loading=true;
+        // console.log(this.model);
+        this.sub = this._user.login(this.model.email, this.model.password).subscribe(res => {
+            console.log(res);
+            this.loading = false;
+            this.router.navigate(['/sensors']);
+        },error => {
+            console.log(error);
+            this.growlService.createErrorMessage('login_error',error);
+            this.loading=false;
+        });
     }
 }

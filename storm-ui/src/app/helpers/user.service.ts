@@ -17,7 +17,7 @@ export class UserService{
     }
 
     login(username: string, password: string) {
-      return this.http.post('/api/users/authenticate', { username: username, password: password })
+      return this.http.post('/api/users/authenticate', { email: username, password: password })
         .map((response: Response) => {
           let user = response;
           if (user) {

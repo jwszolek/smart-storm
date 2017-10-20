@@ -29,8 +29,9 @@ export class RegisterComponent {
                 data => {
                   //this.alertService.success('Registration successful', true);
                   this.loading = false;
-                  console.log("success");
-                    // this.router.navigate(['/login']);
+                  // console.log("success");
+                  this.growlService.createSuccessMessage('Registration successful','');
+                  this.router.navigate(['/login']);
                 },
                 error => {
                     // this.alertService.error(error);

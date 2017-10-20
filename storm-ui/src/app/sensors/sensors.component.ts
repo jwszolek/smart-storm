@@ -15,7 +15,6 @@ export class SensorsComponent implements AfterViewInit {
 	sensor:any = {
 		name:'',
 		date:new Date(),
-		id:''
 	};
 
 	selectedSensor:any;
@@ -36,7 +35,6 @@ export class SensorsComponent implements AfterViewInit {
         this.sensor = {
 			name:'',
 			date:new Date(),
-			id:''
 		};
         this.displayDialog = true;
     }
@@ -48,7 +46,7 @@ export class SensorsComponent implements AfterViewInit {
 
                 this.growlService.createSuccessMessage(status.user,'Submit successful');
 
-                this.growlService.createErrorMessage('',status.user);
+                // this.growlService.createErrorMessage('',status.user);
                 this.loadData();
             });
         }
@@ -57,7 +55,7 @@ export class SensorsComponent implements AfterViewInit {
                 // console.log(status);                  
                 this.growlService.createSuccessMessage(status.user,'Update successful');
 
-                this.growlService.createErrorMessage('',status.user);
+                // this.growlService.createErrorMessage('',status.user);
                 this.loadData();
             });;
             // sensors[this.findSelectedSensorIndex()] = this.sensor;
@@ -76,7 +74,7 @@ export class SensorsComponent implements AfterViewInit {
 
                 this.growlService.createSuccessMessage(status.user,'Delete successful');
 
-                this.growlService.createErrorMessage('',status.user);
+                // this.growlService.createErrorMessage('',status.user);
                 this.loadData();
             });
 
@@ -87,7 +85,7 @@ export class SensorsComponent implements AfterViewInit {
     loadData(){
         this.service.getSensors().subscribe((data:any)=>{
             this.sensors=data;
-            this.growlService.createSuccessMessage('Loaded '+data.length+' sensor(s)','Loading successful');
+            this.growlService.createInfoMessage('Loaded '+data.length+' sensor(s)','Loading successful');
             // console.log(data);
         });
     }
