@@ -54,7 +54,7 @@ export class AppComponent {
     if(this.checkLogged()){
       return 'Logout';
     } else {
-      return 'Login';
+      return 'Sign in';
     }
   }
 }

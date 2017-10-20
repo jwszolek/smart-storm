@@ -18,7 +18,7 @@
     <ul class="nav navbar-nav navbar-right">
       <div *ngIf="!registerOption();then register"></div>
       <ng-template #register>
-        <li [ngClass]="(getActiveTab() == 'register') ? 'active' : ''"><a href="/register">{{ 'register_header' }}</a></li>
+        <li [ngClass]="(getActiveTab() == 'register') ? 'active' : ''"><a href="/register">Sign up</a></li>
       </ng-template>
       <li [ngClass]="(getActiveTab() == 'login') ? 'active' : ''"><a (click)="logButton()" >{{ loginStatus() }}</a></li>
     </ul>
