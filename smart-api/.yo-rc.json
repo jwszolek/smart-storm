@@ -1,0 +1,14 @@
+{
+  "generator-kraken": {
+    "taskModule": "grunt",
+    "lintModule": "eslint",
+    "description": "WebAPI for getting data from IoT and pushing them to the Kafka queue",
+    "author": "Jakub Wszolek",
+    "templateModule": false,
+    "i18n": "i18n",
+    "componentPackager": "bower",
+    "cssModule": false,
+    "jsModule": "requirejs",
+    "useJson": null
+  }
+}
