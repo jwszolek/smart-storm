@@ -6,7 +6,7 @@ var basicAuth = require('express-basic-auth');
 var cors = require('cors'); 
 var expressJwt = require('express-jwt');
 
-var addFunc=require('./addFunc');
+var utils=require('./utils');
 
 var options, app;
 // var mongo = require('mongodb');
@@ -36,8 +36,8 @@ app.use(cors({
 
 //app.use(basicAuth({users: { 'admin': 'supersecret'}}));
 app.use('/api/*',expressJwt({
-    secret: addFunc.getSecret,
-    getToken: addFunc.getToken,
+    secret: utils.getSecret,
+    getToken: utils.getToken,
     // isRevoked: function(req,payload,done){
 
     // }

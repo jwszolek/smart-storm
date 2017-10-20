@@ -1,16 +1,6 @@
-var MongoClient = require('mongodb').MongoClient,
-	ObjectID = require('mongodb').ObjectID;
 
-var url = "mongodb://localhost:27017/storm-db";
-
-var db=MongoClient.connect(url).then((db)=>{
-	// console.log(err,db);
-	if(db) console.log("Connected to: "+url);
-	else console.log('Error connecting to: '+url);
-
-	return db;
-});
-
+var utils=require('../../../utils');
+var	ObjectID = require('mongodb').ObjectID;
 
 module.exports = function(r){
   	r.post("/",function (req,res) { 
@@ -26,24 +16,31 @@ module.exports = function(r){
 		var _check=Object.assign({},req.body);
 		delete _check.name;
 		delete _check._$visited;
-		_check.user_id=user.id; //overwrite with USER_ID from token!
 
-		// console.log(new ObjectID().toHexString(),tmp);
-        db.then((db)=>{
-        	db.collection('sensors').findOne(_check,(err,data)=>{
-        		if(err) res.sendStatus(403);
-        		else
-					db.collection('sensors').updateOne(_check,copy,(err,data)=>{
-						if(err) res.sendStatus(500);
-						else
-							res.json(data);
-					});
-        	});
+		if(_check.user_id==user.id){ 
 
-		}).catch((err)=>{
-			res.sendStatus(500);
-		});
-	    // else 
-	        // res.status(500).send('Błąd'); 
+			var db=utils.getDbConnection().then((db)=>{
+			 	// console.log("Connected to: "+url);
+				
+				_check._id=ObjectID.createFromHexString(_check._id);
+				copy._id=ObjectID.createFromHexString(copy._id);
+				db.collection('sensors').updateOne(_check,copy,(err,data)=>{
+					if(err) { 
+						console.log('Error updating sensor:'+err);
+						res.sendStatus(500);
+					}
+					else
+						res.json(data);
+					db.close();
+				});
+				
+			}).catch((err)=>{
+				console.log('Error connecting to: '+url);
+				res.sendStatus(500);
+			});
+		}else {
+			console.log('Ids mismatched! Token:'+user.id+' - Request:' +_check.user_id);
+			res.sendStatus(403);
+		}
 	})   
 };

@@ -10,6 +10,7 @@
     "all": "npm run build && npm run test"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "construx": "^1.0.0",
     "construx-copier": "^1.0.0",
     "cors": "^2.8.4",

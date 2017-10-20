@@ -1,40 +1,34 @@
-var MongoClient = require('mongodb').MongoClient,
-	ObjectID = require('mongodb').ObjectID;
 
-var url = "mongodb://localhost:27017/storm-db";
+var	ObjectID = require('mongodb').ObjectID;
 
-var db=MongoClient.connect(url).then((db)=>{
-	// console.log(err,db);
-	if(db) console.log("Connected to: "+url);
-	else console.log('Error connecting to: '+url);
-
-	return db;
-});
+var utils=require('../../../utils');
 
 
 module.exports = function(r){
   	r.post("/",function (req,res) { 
-	    // console.log('submit:',req.body); 
-	    // if(req.body.username=='admin' && req.body.password=='asd') 
 
 
 	    var user=getUserFromToken(req);
 		var tmp=Object.assign({
 			user_id:user.id,
-			_id: new ObjectID(user.id+(new Date().getTime())).toHexString() //TODO!!!!
+			_id: new ObjectID() //TODO!!!!
 		},req.body);
 
-		// console.log(new ObjectID().toHexString(),tmp);
-        db.then((db)=>{
+		var db=utils.getDbConnection().then((db)=>{
+		 	// console.log("Connected to: "+url);
 			db.collection('sensors').insertOne(tmp,(err,data)=>{
-				if(err) res.sendStatus(500);
+				if(err) { 
+					console.log('Error getting sensor list:'+err);
+					res.sendStatus(500);
+				}
 				else
 					res.json(data);
+				db.close();
 			});
+			
 		}).catch((err)=>{
+			console.log('Error connecting to: '+url);
 			res.sendStatus(500);
 		});
-	    // else 
-	        // res.status(500).send('Błąd'); 
 	})   
 };

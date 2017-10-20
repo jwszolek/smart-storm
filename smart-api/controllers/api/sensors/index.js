@@ -1,36 +1,22 @@
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/storm-db";
-
-var db=MongoClient.connect(url).then((db)=>{
-	// console.log(err,db);
-	if(db) console.log("Connected to: "+url);
-	else console.log('Error connecting to: '+url);
-
-	return db;
-});
+var utils=require('../../../utils');
 
 module.exports = function(r){
   r.get("/",function (req,res) { 
-        // console.log(req); 
-        // if(req.body.username=='admin' && req.body.password=='asd') 
         var user=getUserFromToken(req);
-        // console.log(user);
-
-        db.then((db)=>{
+		var db=utils.getDbConnection().then((db)=>{
+			
 			db.collection('sensors').find({user_id:user.id}).toArray((err,data)=>{
-				res.json(data);
+				if(err) { 
+					console.log('Error getting sensor list:'+err);
+					res.sendStatus(500);
+				}
+				else res.json(data);
+				db.close();
 			});
+			
 		}).catch((err)=>{
+			console.log('Error connecting to: '+url);
 			res.sendStatus(500);
 		});
-
-     //    tmp=[{
-     //    	name:'ABC',
-     //    	date: new Date(),
-     //    	id:'KJH-BAU126-4t3'
-    	// }];
-     //    res.send(tmp);
-        // else 
-            // res.status(500).send('Błąd'); 
     })   
 };
