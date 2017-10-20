@@ -1,0 +1,47 @@
+<adv-growl [life]="2000"></adv-growl>
+<!-- <h4 style="text-align: center;">{{'enbio/devices' | translate}}</h4> -->
+<!-- <devices-grid #devices></devices-grid> -->
+<br/>
+<!-- <h4 style="text-align: center;">{{'sensors'}}</h4> -->
+<div class="col-md-6 col-md-offset-3">
+	<p-dataTable [value]="sensors" selectionMode="single" [(selection)]="selectedSensor" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="15" [responsive]="true">
+		<p-header>
+			<div>Sensors</div>
+			<div class="ui-helper-clearfix" style="width:100%">
+	    		<button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button>
+		    </div>
+		</p-header>
+	    <p-column field="name" header="Name"></p-column>
+	    <p-column field="date" header="Date added"></p-column>
+	    <p-column field="_id" header="ID"></p-column>
+	</p-dataTable>
+</div>
+<!-- <materials-grid #materials></materials-grid> -->
+<p-dialog header="Sensor details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+
+    <form name="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+		<div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="sensor">
+		    <div class="ui-grid-row form-group" [ngClass]="{ 'has-error': f.submitted && !name.valid }">
+		        <div class="ui-grid-col-4"><label for="name">Name</label></div>
+		        <div class="ui-grid-col-8"><input class="form-control" type='text' name="name" [(ngModel)]="sensor.name" #name='ngModel' required /></div>
+		    </div>
+		    <!-- <div class='ui-grid-row form-group' [ngClass]="{ 'has-error': f.submitted && !name.valid }">
+		        <div *ngIf="f.submitted && !name.valid" class=" ui-g-offset-4 ui-grid-col-8 help-block">Name is required</div>
+		    </div> -->
+		    <div class="ui-grid-row form-group">
+		        <div class="ui-grid-col-4"><label for="date">Date added</label></div>
+		        <div class="ui-grid-col-8"><input class="form-control" pInputText name="date" [(ngModel)]="sensor.date" disabled="true" novalidate/></div>
+		    </div>
+		    <div class="ui-grid-row form-group">
+		        <div class="ui-grid-col-4"><label for="id">Id</label></div>
+		        <div class="ui-grid-col-8"><input class="form-control" pInputText name="id" [(ngModel)]="sensor._id" disabled="true" novalidate/></div>
+		    </div>
+		</div>
+    <!-- <p-footer> -->
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton class="ui-button-danger" icon="fa-close" (click)="delete()" label="Delete"></button>
+            <button type="submit" pButton icon="fa-check"  label="Save"></button>
+        </div>
+    <!-- </p-footer> -->
+	</form>
+</p-dialog>

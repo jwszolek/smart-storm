@@ -1,0 +1,31 @@
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <div class="navbar-nav">
+        
+      </div>
+    </div>
+      <div *ngIf="registerOption();then content"></div>
+      <ng-template #content>
+        <ul class="nav navbar-nav navbar-left">
+          <!-- <li><a style="padding-top:0px;padding-bottom: 0px"><img [src]="fullImagePath" style="height:100%"></a></li> -->
+          <li [ngClass]="(getActiveTab() == 'sensors') ? 'active' : ''"><a href="/sensors">{{ 'sensors' }}</a></li>
+        </ul>
+      </ng-template>
+    
+    
+    <ul class="nav navbar-nav navbar-right">
+      <div *ngIf="!registerOption();then register"></div>
+      <ng-template #register>
+        <li [ngClass]="(getActiveTab() == 'register') ? 'active' : ''"><a href="/register">Sign up</a></li>
+      </ng-template>
+      <li [ngClass]="(getActiveTab() == 'login') ? 'active' : ''"><a (click)="logButton()" >{{ loginStatus() }}</a></li>
+    </ul>
+
+  </div>
+</nav>
+
+<div class="col-md-12 ">
+  <router-outlet></router-outlet>
+</div>
