@@ -6,4 +6,4 @@ before_script:
 env:
   - TEST_DIR=smart-api
   
-script: cd $TEST_DIR && npm install && cd ../storm-ui && ng build
+script: cd $TEST_DIR && npm install && cd ../storm-ui && npm install -g @angular/cli && ng build
