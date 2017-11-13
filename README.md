@@ -9,6 +9,5 @@ Distributed solution that allows reading measurement data coming from IoT device
 </p>
 
 
-
 ## TODO
 
