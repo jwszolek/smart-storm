@@ -5,6 +5,21 @@ Distributed solution that allows reading measurement data coming from IoT device
 ## Git project site
 https://github.com/smart-storm
 
+## Main components
+
+
+
+### Web containers (NginX, NodeJS)
+
+### Cassandra
+
+### Storm-streaming
+
+### Kafka + Zookeeper
+
+### API Monitor
+
+
 ## ELK integration
 
 <p align="center">
